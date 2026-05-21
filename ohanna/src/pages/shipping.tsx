@@ -1,6 +1,10 @@
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-import { Truck, RotateCcw, Shield, Clock } from "lucide-react";
+import WaveDivider from "@/components/ui/wave-divider";
+import { Truck, RotateCcw, Shield } from "lucide-react";
+import { SEO } from "@/components/seo/seo";
+import { SEO_DATA } from "@/lib/seo-data";
+import { useLang } from "@/contexts/lang-context";
 
 const EGYPT_ZONES = [
   { zone: "Cairo & Giza", time: "2–3 business days", cost: "EGP 50", express: "Same-day available" },
@@ -20,19 +24,26 @@ const INTERNATIONAL_ZONES = [
 ];
 
 export default function ShippingPage() {
+  const { t } = useLang();
   return (
-    <div className="min-h-screen bg-[#FDF8EF] flex flex-col">
+    <div className="min-h-screen section-paper flex flex-col">
+      <SEO {...SEO_DATA.shipping} />
       <Navbar />
 
-      <section className="py-16 bg-gradient-to-b from-[#E4D5B7]/60 to-[#FDF8EF]">
+      {/* ── HEADER ── */}
+      <section className="py-16 section-sand">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-4">
-            SHIPPING & <span className="text-[#C89D29]">RETURNS</span>
+          <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-4 section-heading">
+            {t("pages.shipping.heroTitle")} <span className="text-[#C89D29]">{t("pages.shipping.heroTitleGold")}</span>
           </h1>
         </div>
       </section>
 
-      <main className="flex-1 py-12">
+      {/* Wave: Header → Content */}
+      <WaveDivider from="sand" to="paper" variant={2} flip />
+
+      {/* ── MAIN CONTENT ── */}
+      <main className="flex-1 py-12 section-paper">
         <div className="container mx-auto px-4 max-w-4xl space-y-12">
           <div className="grid sm:grid-cols-3 gap-4">
             {[
@@ -42,18 +53,18 @@ export default function ShippingPage() {
             ].map((item, i) => (
               <div key={i} className="ohanna-card p-5 text-center">
                 <item.icon className="h-8 w-8 text-[#C89D29] mx-auto mb-3" />
-                <p className="font-black hieroglyph-font text-sm mb-1">{item.title}</p>
-                <p className="text-xs text-[#1B1B1B]/50">{item.desc}</p>
+                <p className="font-black hieroglyph-font text-sm mb-1 section-heading">{item.title}</p>
+                <p className="text-xs section-faint">{item.desc}</p>
               </div>
             ))}
           </div>
 
           <div>
-            <h2 className="text-2xl font-black hieroglyph-font mb-4">EGYPT DELIVERY <span className="text-[#C89D29]">RATES</span></h2>
-            <div className="overflow-x-auto">
+            <h2 className="text-2xl font-black hieroglyph-font mb-4 section-heading">EGYPT DELIVERY <span className="text-[#C89D29]">RATES</span></h2>
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
+                  <tr className="section-ink text-[#FDF8EF]">
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">ZONE</th>
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">TIME</th>
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">COST</th>
@@ -62,11 +73,11 @@ export default function ShippingPage() {
                 </thead>
                 <tbody>
                   {EGYPT_ZONES.map((z, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
-                      <td className="p-3 font-medium">{z.zone}</td>
-                      <td className="p-3 text-[#1B1B1B]/70">{z.time}</td>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 dark:border-[#FDF8EF]/6 last:border-0 ${i % 2 === 0 ? "section-paper" : "section-sand"}`}>
+                      <td className="p-3 font-medium section-heading">{z.zone}</td>
+                      <td className="p-3 section-muted">{z.time}</td>
                       <td className="p-3 font-bold text-[#C89D29]">{z.cost}</td>
-                      <td className="p-3 text-[#1B1B1B]/50 text-xs">{z.express}</td>
+                      <td className="p-3 section-faint text-xs">{z.express}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -75,11 +86,11 @@ export default function ShippingPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-black hieroglyph-font mb-4">INTERNATIONAL <span className="text-[#C89D29]">SHIPPING</span></h2>
-            <div className="overflow-x-auto">
+            <h2 className="text-2xl font-black hieroglyph-font mb-4 section-heading">INTERNATIONAL <span className="text-[#C89D29]">SHIPPING</span></h2>
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
+                  <tr className="section-ink text-[#FDF8EF]">
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">DESTINATION</th>
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">TIME</th>
                     <th className="text-left p-3 font-black hieroglyph-font text-xs tracking-wider">COST</th>
@@ -87,9 +98,9 @@ export default function ShippingPage() {
                 </thead>
                 <tbody>
                   {INTERNATIONAL_ZONES.map((z, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
-                      <td className="p-3 font-medium">{z.zone}</td>
-                      <td className="p-3 text-[#1B1B1B]/70">{z.time}</td>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 dark:border-[#FDF8EF]/6 last:border-0 ${i % 2 === 0 ? "section-paper" : "section-sand"}`}>
+                      <td className="p-3 font-medium section-heading">{z.zone}</td>
+                      <td className="p-3 section-muted">{z.time}</td>
                       <td className="p-3 font-bold text-[#C89D29]">{z.cost}</td>
                     </tr>
                   ))}
@@ -99,16 +110,20 @@ export default function ShippingPage() {
           </div>
 
           <div className="ohanna-card p-6">
-            <h2 className="text-xl font-black hieroglyph-font mb-4">RETURN <span className="text-[#C89D29]">POLICY</span></h2>
-            <div className="space-y-3 text-sm text-[#1B1B1B]/70 leading-relaxed">
-              <p>We accept returns within <strong>14 days</strong> of delivery for unworn, unwashed items with original tags attached.</p>
-              <p>To initiate a return, email <strong>returns@ohanna.store</strong> with your order ID and reason for return.</p>
+            <h2 className="text-xl font-black hieroglyph-font mb-4 section-heading">RETURN <span className="text-[#C89D29]">POLICY</span></h2>
+            <div className="space-y-3 text-sm section-muted leading-relaxed">
+              <p>We accept returns within <strong className="section-heading">14 days</strong> of delivery for unworn, unwashed items with original tags attached.</p>
+              <p>To initiate a return, email <strong className="section-heading">returns@ohanna.store</strong> with your order ID and reason for return.</p>
               <p>Once we receive and inspect your return, we'll process a full refund within 5–7 business days.</p>
               <p>Sale items and custom pieces are final sale.</p>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Wave: Content → Footer */}
+      <WaveDivider from="paper" to="ink" variant={1} />
+
       <Footer />
     </div>
   );

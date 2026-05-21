@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { Link } from "wouter";
+import { SEO } from "@/components/seo/seo";
+import { SEO_DATA } from "@/lib/seo-data";
 
 const STATUS_STEPS = [
   { key: "confirmed", label: "ORDER CONFIRMED", icon: CheckCircle2, desc: "Your order has been received and payment confirmed." },
@@ -54,6 +56,7 @@ export default function TrackOrderPage() {
 
   return (
     <div className="min-h-screen bg-[#FDF8EF] flex flex-col">
+      <SEO {...(SEO_DATA.trackOrder as any)} />
       <Navbar />
 
       <section className="py-16 bg-gradient-to-b from-[#E4D5B7]/60 to-[#FDF8EF]">

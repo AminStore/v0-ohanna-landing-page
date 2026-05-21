@@ -106,23 +106,27 @@ router.get(
 router.post(
   "/checkout",
   asyncHandler(async (req: Request, res: Response) => {
-    const { items, successUrl, cancelUrl, customerEmail, customerName, shippingAddress } =
-      req.body as {
-        items: any[];
-        successUrl: string;
-        cancelUrl: string;
-        customerEmail: string;
-        customerName: string;
-        shippingAddress: any;
-      };
+    const {
+      items,
+      successUrl,
+      cancelUrl,
+      customerEmail: rawEmail,
+      customerName: rawName,
+      shippingAddress,
+    } = req.body as {
+      items: any[];
+      successUrl: string;
+      cancelUrl: string;
+      customerEmail?: string;
+      customerName?: string;
+      shippingAddress?: any;
+    };
+
+    const customerEmail = rawEmail?.trim() || "guest@ohanna.store";
+    const customerName = rawName?.trim() || "Guest";
 
     if (!items?.length) {
       res.status(400).json({ error: "Cart is empty" });
-      return;
-    }
-
-    if (!customerEmail?.trim() || !customerName?.trim()) {
-      res.status(400).json({ error: "Customer email and name are required" });
       return;
     }
 

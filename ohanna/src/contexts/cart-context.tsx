@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 import type { CartItem, Product } from "@/lib/types";
 
+const CART_STORAGE_KEY = "ohanna-cart-v2";
+const CART_SCHEMA_VERSION = 2;
+
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
@@ -48,7 +51,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return {
         ...state,
         items: state.items.filter(
-          (i) => itemKey(i.product.id, i.size) !== itemKey(action.productId, action.size),
+          (i) =>
+            itemKey(i.product.id, i.size) !==
+            itemKey(action.productId, action.size),
         ),
       };
     case "UPDATE_QTY":
@@ -56,14 +61,17 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         return {
           ...state,
           items: state.items.filter(
-            (i) => itemKey(i.product.id, i.size) !== itemKey(action.productId, action.size),
+            (i) =>
+              itemKey(i.product.id, i.size) !==
+              itemKey(action.productId, action.size),
           ),
         };
       }
       return {
         ...state,
         items: state.items.map((i) =>
-          itemKey(i.product.id, i.size) === itemKey(action.productId, action.size)
+          itemKey(i.product.id, i.size) ===
+          itemKey(action.productId, action.size)
             ? { ...i, quantity: action.quantity }
             : i,
         ),
@@ -79,6 +87,42 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     default:
       return state;
   }
+}
+
+interface StoredCart {
+  v: number;
+  items: CartItem[];
+}
+
+function loadCart(): CartItem[] {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed: StoredCart = JSON.parse(raw);
+    if (!parsed || parsed.v !== CART_SCHEMA_VERSION) {
+      localStorage.removeItem(CART_STORAGE_KEY);
+      return [];
+    }
+    if (!Array.isArray(parsed.items)) return [];
+    return parsed.items.filter(
+      (i) =>
+        i &&
+        typeof i === "object" &&
+        i.product &&
+        typeof i.product.id === "string" &&
+        typeof i.quantity === "number" &&
+        i.quantity > 0,
+    );
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(items: CartItem[]) {
+  try {
+    const payload: StoredCart = { v: CART_SCHEMA_VERSION, items };
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(payload));
+  } catch {}
 }
 
 interface CartContextValue {
@@ -104,21 +148,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("ohanna-cart");
-      if (saved) {
-        const items = JSON.parse(saved) as CartItem[];
-        dispatch({ type: "HYDRATE", items });
-      }
-    } catch {}
+    const items = loadCart();
+    dispatch({ type: "HYDRATE", items });
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try {
-      localStorage.setItem("ohanna-cart", JSON.stringify(state.items));
-    } catch {}
+    saveCart(state.items);
   }, [state.items, hydrated]);
 
   const itemCount = state.items.reduce((sum, i) => sum + i.quantity, 0);
@@ -133,7 +170,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     itemCount,
     total,
     addToCart: (product, size) => dispatch({ type: "ADD", product, size }),
-    removeFromCart: (productId, size) => dispatch({ type: "REMOVE", productId, size }),
+    removeFromCart: (productId, size) =>
+      dispatch({ type: "REMOVE", productId, size }),
     updateQuantity: (productId, quantity, size) =>
       dispatch({ type: "UPDATE_QTY", productId, quantity, size }),
     clearCart: () => dispatch({ type: "CLEAR" }),

@@ -1,6 +1,9 @@
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import WaveDivider from "@/components/ui/wave-divider";
 import { Ruler } from "lucide-react";
+import { SEO } from "@/components/seo/seo";
+import { SEO_DATA } from "@/lib/seo-data";
 
 const TOPS_SIZES = [
   { size: "XS", chest: "86–91", shoulder: "42", length: "66", sleeve: "59" },
@@ -22,27 +25,33 @@ const BOTTOMS_SIZES = [
 
 export default function SizeGuidePage() {
   return (
-    <div className="min-h-screen bg-[#FDF8EF] flex flex-col">
+    <div className="min-h-screen section-paper flex flex-col">
+      <SEO {...SEO_DATA.sizeGuide} />
       <Navbar />
 
-      <section className="py-16 bg-gradient-to-b from-[#E4D5B7]/60 to-[#FDF8EF]">
+      {/* ── HEADER ── */}
+      <section className="py-16 section-sand">
         <div className="container mx-auto px-4 text-center">
           <Ruler className="h-10 w-10 text-[#C89D29] mx-auto mb-4" />
-          <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-4">
+          <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-4 section-heading">
             SIZE <span className="text-[#C89D29]">GUIDE</span>
           </h1>
-          <p className="text-[#1B1B1B]/55 max-w-md mx-auto text-sm">All measurements in centimeters (cm)</p>
+          <p className="section-muted max-w-md mx-auto text-sm">All measurements in centimeters (cm)</p>
         </div>
       </section>
 
-      <main className="flex-1 py-12">
+      {/* Wave: Header → Content */}
+      <WaveDivider from="sand" to="paper" variant={4} />
+
+      {/* ── CONTENT ── */}
+      <main className="flex-1 py-12 section-paper">
         <div className="container mx-auto px-4 max-w-3xl space-y-10">
           <div>
-            <h2 className="text-xl font-black hieroglyph-font mb-4">TOPS — Hoodies, T-Shirts, Jackets</h2>
-            <div className="overflow-x-auto">
+            <h2 className="text-xl font-black hieroglyph-font mb-4 section-heading">TOPS — Hoodies, T-Shirts, Jackets</h2>
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
+                  <tr className="section-ink text-[#FDF8EF]">
                     {["SIZE", "CHEST", "SHOULDER", "LENGTH", "SLEEVE"].map(h => (
                       <th key={h} className="p-3 text-left font-black hieroglyph-font text-xs tracking-wider">{h}</th>
                     ))}
@@ -50,12 +59,12 @@ export default function SizeGuidePage() {
                 </thead>
                 <tbody>
                   {TOPS_SIZES.map((row, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 dark:border-[#FDF8EF]/6 last:border-0 ${i % 2 === 0 ? "section-paper" : "section-sand"}`}>
                       <td className="p-3 font-black text-[#C89D29]">{row.size}</td>
-                      <td className="p-3">{row.chest}</td>
-                      <td className="p-3">{row.shoulder}</td>
-                      <td className="p-3">{row.length}</td>
-                      <td className="p-3">{row.sleeve}</td>
+                      <td className="p-3 section-heading">{row.chest}</td>
+                      <td className="p-3 section-heading">{row.shoulder}</td>
+                      <td className="p-3 section-heading">{row.length}</td>
+                      <td className="p-3 section-heading">{row.sleeve}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -64,11 +73,11 @@ export default function SizeGuidePage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-black hieroglyph-font mb-4">BOTTOMS — Joggers, Shorts, Track Pants</h2>
-            <div className="overflow-x-auto">
+            <h2 className="text-xl font-black hieroglyph-font mb-4 section-heading">BOTTOMS — Joggers, Shorts, Track Pants</h2>
+            <div className="overflow-x-auto rounded-xl overflow-hidden border border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#1B1B1B] text-[#FDF8EF]">
+                  <tr className="section-ink text-[#FDF8EF]">
                     {["SIZE", "WAIST", "HIPS", "INSEAM", "RISE"].map(h => (
                       <th key={h} className="p-3 text-left font-black hieroglyph-font text-xs tracking-wider">{h}</th>
                     ))}
@@ -76,12 +85,12 @@ export default function SizeGuidePage() {
                 </thead>
                 <tbody>
                   {BOTTOMS_SIZES.map((row, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#FDF8EF]"}>
+                    <tr key={i} className={`border-b border-[#1B1B1B]/6 dark:border-[#FDF8EF]/6 last:border-0 ${i % 2 === 0 ? "section-paper" : "section-sand"}`}>
                       <td className="p-3 font-black text-[#C89D29]">{row.size}</td>
-                      <td className="p-3">{row.waist}</td>
-                      <td className="p-3">{row.hips}</td>
-                      <td className="p-3">{row.inseam}</td>
-                      <td className="p-3">{row.rise}</td>
+                      <td className="p-3 section-heading">{row.waist}</td>
+                      <td className="p-3 section-heading">{row.hips}</td>
+                      <td className="p-3 section-heading">{row.inseam}</td>
+                      <td className="p-3 section-heading">{row.rise}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -89,17 +98,21 @@ export default function SizeGuidePage() {
             </div>
           </div>
 
-          <div className="ohanna-card p-6 bg-[#C89D29]/10">
-            <h3 className="font-black hieroglyph-font text-sm mb-3">FITTING TIPS</h3>
-            <ul className="space-y-2 text-sm text-[#1B1B1B]/70">
-              <li>• OHANNA pieces run <strong>true to size</strong></li>
-              <li>• For oversized fits (hoodies), consider <strong>sizing up one</strong></li>
-              <li>• If between sizes, go <strong>larger</strong></li>
-              <li>• All measurements are in <strong>centimeters</strong></li>
+          <div className="ohanna-card p-6">
+            <h3 className="font-black hieroglyph-font text-sm mb-3 section-heading">FITTING TIPS</h3>
+            <ul className="space-y-2 text-sm section-muted">
+              <li>• OHANNA pieces run <strong className="section-heading">true to size</strong></li>
+              <li>• For oversized fits (hoodies), consider <strong className="section-heading">sizing up one</strong></li>
+              <li>• If between sizes, go <strong className="section-heading">larger</strong></li>
+              <li>• All measurements are in <strong className="section-heading">centimeters</strong></li>
             </ul>
           </div>
         </div>
       </main>
+
+      {/* Wave: Content → Footer */}
+      <WaveDivider from="paper" to="ink" variant={3} flip />
+
       <Footer />
     </div>
   );

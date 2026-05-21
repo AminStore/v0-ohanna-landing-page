@@ -37,7 +37,7 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
       transition={{ duration: 0.4, delay: Math.min(index * 0.07, 0.42) }}
       className="ohanna-card group"
     >
-      <Link href={`/product/${product.slug ?? product.id}`} className="block relative overflow-hidden">
+      <Link href={`/product/${product.slug ?? product.id}`} className="block relative overflow-hidden rounded-t-[14px]">
         <div className="aspect-[4/5] relative" style={{ background: bgColor }}>
           <img
             src={imgError ? "/placeholder.jpg" : product.imageUrl}
@@ -67,24 +67,24 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
             <span className="text-[10px] font-black hieroglyph-font text-[#C89D29] tracking-widest">
               {product.category}
             </span>
-            <h3 className="text-sm font-black hieroglyph-font mt-0.5 leading-tight text-[#1B1B1B] line-clamp-1">
+            <h3 className="text-sm font-black hieroglyph-font mt-0.5 leading-tight text-[#1B1B1B] dark:text-[#FDF8EF] line-clamp-1">
               {product.name}
             </h3>
           </div>
           {product.stock <= 10 && product.stock > 0 && (
-            <span className="text-[10px] font-bold text-[#AE1C1C] whitespace-nowrap shrink-0 mt-0.5">
+            <span className="text-[10px] font-bold text-[#AE1C1C] dark:text-[#F87171] whitespace-nowrap shrink-0 mt-0.5">
               Only {product.stock} left
             </span>
           )}
         </div>
-        <p className="text-xs text-[#1B1B1B]/50 line-clamp-2 leading-relaxed mb-3">
+        <p className="text-xs text-[#1B1B1B]/55 dark:text-[#FDF8EF]/55 line-clamp-2 leading-relaxed mb-3">
           {product.description}
         </p>
         <div className="flex items-center justify-between gap-2">
           <span className="text-base font-black text-[#C89D29]">{fmt(product.price)}</span>
           <button
             onClick={handleAdd}
-            className="flex items-center gap-1.5 bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] px-3 py-2 rounded-lg text-xs font-black transition-all active:scale-95"
+            className="flex items-center gap-1.5 bg-[#1B1B1B] dark:bg-[#FDF8EF] text-[#FDF8EF] dark:text-[#1B1B1B] hover:bg-[#C89D29] hover:text-[#1B1B1B] dark:hover:bg-[#C89D29] dark:hover:text-[#1B1B1B] px-3 py-2 rounded-lg text-xs font-black transition-all active:scale-95"
           >
             <ShoppingBag className="h-3.5 w-3.5" />
             ADD

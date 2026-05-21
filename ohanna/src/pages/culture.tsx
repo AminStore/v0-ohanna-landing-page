@@ -2,6 +2,10 @@ import { Link } from "wouter";
 import { Eye } from "lucide-react";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import WaveDivider from "@/components/ui/wave-divider";
+import { SEO } from "@/components/seo/seo";
+import { SEO_DATA } from "@/lib/seo-data";
+import { useLang } from "@/contexts/lang-context";
 
 const SYMBOLS = [
   { symbol: "𓋹", name: "ANKH", meaning: "Eternal Life & Power", desc: "The Ankh is the ancient Egyptian symbol for life, immortality, and divine power. Carried by pharaohs and gods alike, it represents the key to eternal existence." },
@@ -22,11 +26,15 @@ const GODS = [
 ];
 
 export default function CulturePage() {
+  const { t } = useLang();
+
   return (
-    <div className="min-h-screen bg-[#FDF8EF] flex flex-col">
+    <div className="min-h-screen section-paper flex flex-col">
+      <SEO {...SEO_DATA.culture} />
       <Navbar />
 
-      <section className="py-24 bg-gradient-to-br from-[#1D4D4F] to-[#1B1B1B] text-[#FDF8EF] text-center relative overflow-hidden">
+      {/* ── HERO ── */}
+      <section className="py-24 section-ink text-[#FDF8EF] text-center relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="h-px w-16 bg-[#C89D29]/40" />
@@ -34,58 +42,80 @@ export default function CulturePage() {
             <div className="h-px w-16 bg-[#C89D29]/40" />
           </div>
           <h1 className="text-5xl sm:text-7xl font-black hieroglyph-font hieroglyph-shadow mb-6">
-            EGYPTIAN <span className="text-[#C89D29]">CULTURE</span>
+            {t("pages.culture.heroTitle")} <span className="text-[#C89D29]">{t("pages.culture.heroTitleGold")}</span>
           </h1>
           <p className="text-[#FDF8EF]/70 text-lg max-w-2xl mx-auto leading-relaxed">
-            5,000 years of civilization. Symbols that outlived empires. Culture that breathes through our designs.
+            {t("pages.culture.heroDesc")}
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-[#FDF8EF]">
+      {/* Wave: Hero → Symbols */}
+      <WaveDivider from="ink" to="paper" variant={3} />
+
+      {/* ── SYMBOLS ── */}
+      <section className="py-20 section-paper">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-black hieroglyph-font mb-3">THE <span className="text-[#C89D29]">SYMBOLS</span></h2>
-            <p className="text-[#1B1B1B]/55 text-sm">Every symbol we wear carries thousands of years of meaning</p>
+            <h2 className="text-4xl font-black hieroglyph-font mb-3 section-heading">
+              {t("pages.culture.symbolsTitle")} <span className="text-[#C89D29]">{t("pages.culture.symbolsTitleGold")}</span>
+            </h2>
+            <p className="section-muted text-sm">{t("pages.culture.symbolsDesc")}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {SYMBOLS.map((s, i) => (
               <div key={i} className="ohanna-card p-6 hover:shadow-[6px_6px_0_#C89D29] transition-all">
                 <div className="text-5xl text-[#C89D29] mb-4">{s.symbol}</div>
-                <div className="font-black hieroglyph-font text-sm tracking-wider mb-1">{s.name}</div>
-                <div className="text-xs text-[#C89D29] font-bold mb-3">{s.meaning}</div>
-                <p className="text-xs text-[#1B1B1B]/60 leading-relaxed">{s.desc}</p>
+                <div className="font-black hieroglyph-font text-sm section-heading mb-1">{s.name}</div>
+                <div className="text-[#C89D29] text-[10px] font-bold tracking-widest hieroglyph-font mb-3">{s.meaning}</div>
+                <p className="section-muted text-xs leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-[#1B1B1B] text-[#FDF8EF]">
+      {/* Wave: Symbols → Gods */}
+      <WaveDivider from="paper" to="sand" variant={2} flip />
+
+      {/* ── GODS ── */}
+      <section className="py-20 section-sand">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-black hieroglyph-font mb-3">THE <span className="text-[#C89D29]">GODS</span></h2>
+            <h2 className="text-4xl font-black hieroglyph-font mb-3 section-heading">
+              {t("pages.culture.godsTitle")} <span className="text-[#C89D29]">{t("pages.culture.godsTitleGold")}</span>
+            </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {GODS.map((g, i) => (
-              <div key={i} className="bg-[#FDF8EF]/5 border border-[#FDF8EF]/10 rounded-xl p-5">
-                <div className="font-black hieroglyph-font text-[#C89D29] text-sm tracking-widest mb-1">{g.name}</div>
-                <div className="text-xs text-[#FDF8EF]/40 font-bold mb-3">{g.role}</div>
-                <p className="text-xs text-[#FDF8EF]/60 leading-relaxed">{g.info}</p>
+              <div key={i} className="ohanna-card p-5">
+                <div className="font-black hieroglyph-font text-base section-heading mb-1">{g.name}</div>
+                <div className="text-[#C89D29] text-[10px] font-bold tracking-widest hieroglyph-font mb-3">{g.role}</div>
+                <p className="section-muted text-xs leading-relaxed">{g.info}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-[#C89D29]">
+      {/* Wave: Gods → CTA */}
+      <WaveDivider from="sand" to="gold" variant={4} />
+
+      {/* ── CTA ── */}
+      <section className="py-16 section-gold">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-black hieroglyph-font text-[#1B1B1B] mb-4">WEAR THE SYMBOLS</h2>
-          <Link href="/collection" className="inline-flex items-center gap-2 bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#FDF8EF] hover:text-[#1B1B1B] px-8 py-3.5 font-black hieroglyph-font text-sm sketchy-button transition-all">
-            <Eye className="h-4 w-4" /> SHOP COLLECTION
+          <h2 className="text-3xl font-black hieroglyph-font text-[#1B1B1B] mb-4">{t("pages.culture.ctaTitle")}</h2>
+          <Link
+            href="/collection"
+            className="inline-flex items-center gap-2 bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#FDF8EF] hover:text-[#1B1B1B] px-8 py-3.5 font-black hieroglyph-font text-sm sketchy-button transition-all"
+          >
+            <Eye className="h-4 w-4" /> {t("pages.culture.ctaBtn")}
           </Link>
         </div>
       </section>
+
+      {/* Wave: CTA → Footer */}
+      <WaveDivider from="gold" to="ink" variant={5} />
 
       <Footer />
     </div>

@@ -17,8 +17,13 @@ import type {
 } from "@/types";
 
 // Set the base URL for API calls
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-setBaseUrl(API_BASE_URL);
+// In production, point to deployed backend; in dev, use Vite proxy (relative paths)
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? "" : "");
+
+if (API_BASE_URL) {
+  setBaseUrl(API_BASE_URL);
+}
 
 /**
  * API Client

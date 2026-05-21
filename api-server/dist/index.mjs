@@ -43298,11 +43298,14 @@ var allowedOrigins = [
   "http://localhost:3000",
   "http://127.0.0.1:5173",
   "http://127.0.0.1:3000",
+  "https://ohanna-landing-page.vercel.app",
+  "https://ohanna-api.vercel.app",
   env.corsOrigin
-];
+].filter(Boolean);
 var corsConfig = (0, import_cors.default)({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
+    if (process.env.NODE_ENV !== "production") return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -50693,13 +50696,18 @@ router2.get(
 router2.post(
   "/checkout",
   asyncHandler(async (req, res) => {
-    const { items, successUrl, cancelUrl, customerEmail, customerName, shippingAddress } = req.body;
+    const {
+      items,
+      successUrl,
+      cancelUrl,
+      customerEmail: rawEmail,
+      customerName: rawName,
+      shippingAddress
+    } = req.body;
+    const customerEmail = rawEmail?.trim() || "guest@ohanna.store";
+    const customerName = rawName?.trim() || "Guest";
     if (!items?.length) {
       res.status(400).json({ error: "Cart is empty" });
-      return;
-    }
-    if (!customerEmail?.trim() || !customerName?.trim()) {
-      res.status(400).json({ error: "Customer email and name are required" });
       return;
     }
     const stripeKey = process.env["STRIPE_SECRET_KEY"];

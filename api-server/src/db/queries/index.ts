@@ -3,9 +3,12 @@
  * Centralized export of all query functions
  */
 
-export { productQueries } from "./products";
-export { orderQueries } from "./orders";
-export { contactQueries } from "./contacts";
+import { productQueries } from "./products";
+import { orderQueries } from "./orders";
+import { contactQueries } from "./contacts";
+
+export { productQueries, orderQueries, contactQueries };
 
 // Re-export for convenience
 export { productQueries as products, orderQueries as orders, contactQueries as contacts };
+

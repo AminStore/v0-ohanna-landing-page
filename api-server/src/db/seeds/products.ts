@@ -14,7 +14,7 @@ export const PRODUCT_SEEDS = [
     price: 349900, // 3499 EGP in cents
     category: "Hoodies",
     badge: "BESTSELLER",
-    imageUrl: "/streetwear-egyptian-sketch.png",
+    imageUrl: "/HORUS-HOODIE.jpg",
     stock: 50,
     slug: "horus-hoodie",
   },
@@ -26,7 +26,7 @@ export const PRODUCT_SEEDS = [
     price: 129900, // 1299 EGP in cents
     category: "T-Shirts",
     badge: "LIMITED",
-    imageUrl: "/abstract-geometric-shapes.png",
+    imageUrl: "/ANKH-TEE.jpg",
     stock: 30,
     slug: "ankh-tee",
   },
@@ -38,7 +38,7 @@ export const PRODUCT_SEEDS = [
     price: 549900, // 5499 EGP in cents
     category: "Jackets",
     badge: "NEW",
-    imageUrl: "/egyptian-streetwear-timeline.png",
+    imageUrl: "/PHARAOH-JACKET.jpg",
     stock: 20,
     slug: "pharaoh-jacket",
   },
@@ -50,7 +50,7 @@ export const PRODUCT_SEEDS = [
     price: 219900, // 2199 EGP in cents
     category: "Bottoms",
     badge: "TRENDING",
-    imageUrl: "/streetwear-egyptian-sketch.png",
+    imageUrl: "/NILE-JOGGER.png",
     stock: 45,
     slug: "nile-joggers",
   },
@@ -62,7 +62,7 @@ export const PRODUCT_SEEDS = [
     price: 79900, // 799 EGP in cents
     category: "Accessories",
     badge: "EXCLUSIVE",
-    imageUrl: "/placeholder-logo.png",
+    imageUrl: "/CLEOPATRA-CAP.jpg",
     stock: 100,
     slug: "cleopatra-cap",
   },
@@ -74,7 +74,7 @@ export const PRODUCT_SEEDS = [
     price: 189900, // 1899 EGP in cents
     category: "Bottoms",
     badge: "UTILITY",
-    imageUrl: "/streetwear-egyptian-sketch.png",
+    imageUrl: "/SPHINX-SWEATPANTS.jpg",
     stock: 35,
     slug: "sphinx-sweatpants",
   },
@@ -86,7 +86,7 @@ export const PRODUCT_SEEDS = [
     price: 149900, // 1499 EGP in cents
     category: "T-Shirts",
     badge: "NEW",
-    imageUrl: "/abstract-geometric-shapes.png",
+    imageUrl: "/PYRAMID-OVERSIZED-TEE.jpg",
     stock: 60,
     slug: "pyramid-oversized-tee",
   },
@@ -98,7 +98,7 @@ export const PRODUCT_SEEDS = [
     price: 169900, // 1699 EGP in cents
     category: "T-Shirts",
     badge: "BESTSELLER",
-    imageUrl: "/placeholder.jpg",
+    imageUrl: "/CARTOUCHE-LONG-SLEEVE.jpg",
     stock: 55,
     slug: "cartouche-long-sleeve",
   },
@@ -110,7 +110,7 @@ export const PRODUCT_SEEDS = [
     price: 399900, // 3999 EGP in cents
     category: "Jackets",
     badge: "LIMITED",
-    imageUrl: "/egyptian-streetwear-timeline.png",
+    imageUrl: "/SCARAB-BOMBER.jpg",
     stock: 25,
     slug: "scarab-bomber",
   },
@@ -122,7 +122,7 @@ export const PRODUCT_SEEDS = [
     price: 329900, // 3299 EGP in cents
     category: "Hoodies",
     badge: "TRENDING",
-    imageUrl: "/streetwear-egyptian-sketch.png",
+    imageUrl: "/HIEROGLYPH-HOODIE.jpg",
     stock: 40,
     slug: "hieroglyph-hoodie",
   },
@@ -134,7 +134,7 @@ export const PRODUCT_SEEDS = [
     price: 99900, // 999 EGP in cents
     category: "T-Shirts",
     badge: "EXCLUSIVE",
-    imageUrl: "/placeholder.jpg",
+    imageUrl: "/NEFERTITI-CROP-TOP.jpg",
     stock: 50,
     slug: "nefertiti-crop-top",
   },
@@ -146,7 +146,7 @@ export const PRODUCT_SEEDS = [
     price: 49900, // 499 EGP in cents
     category: "Accessories",
     badge: "NEW",
-    imageUrl: "/placeholder-logo.png",
+    imageUrl: "/ANKH-CHAIN-NECKLACE.jpg",
     stock: 200,
     slug: "ankh-chain-necklace",
   },

@@ -44,9 +44,10 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 320 }}
-            className="fixed right-0 top-0 h-full w-full max-w-sm z-50 bg-[#FDF8EF] flex flex-col shadow-[-16px_0_40px_rgba(0,0,0,0.15)]"
+            className="fixed right-0 top-0 h-full w-full max-w-sm z-50 flex flex-col shadow-[-16px_0_40px_rgba(0,0,0,0.15)] bg-[#FDF8EF] dark:bg-[#1A1410]"
           >
-            <div className="flex items-center justify-between px-5 py-4 bg-[#1B1B1B] text-[#FDF8EF]">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 bg-[#1B1B1B] dark:bg-[#0D0B09] text-[#FDF8EF]">
               <div className="flex items-center gap-2.5">
                 <ShoppingBag className="h-5 w-5 text-[#C89D29]" />
                 <span className="font-black hieroglyph-font tracking-wider text-sm">
@@ -58,16 +59,22 @@ export default function CartDrawer() {
               </button>
             </div>
 
+            {/* Free shipping banner */}
             {items.length > 0 && (
-              <div className={`px-5 py-2.5 text-xs flex items-center gap-2 ${remaining > 0 ? "bg-[#C89D29]/10" : "bg-[#1D4D4F]/10"}`}>
-                <Tag className={`h-3.5 w-3.5 shrink-0 ${remaining > 0 ? "text-[#C89D29]" : "text-[#1D4D4F]"}`} />
+              <div className={`px-5 py-2.5 text-xs flex items-center gap-2 ${
+                remaining > 0
+                  ? "bg-[#C89D29]/10 dark:bg-[#C89D29]/15"
+                  : "bg-[#1D4D4F]/10 dark:bg-[#1D4D4F]/20"
+              }`}>
+                <Tag className={`h-3.5 w-3.5 shrink-0 ${remaining > 0 ? "text-[#C89D29]" : "text-[#4A9EA1]"}`} />
                 {remaining > 0
-                  ? <span className="text-[#1B1B1B]/65">Add <strong>{fmt(remaining)}</strong> for free shipping</span>
-                  : <span className="text-[#1D4D4F] font-semibold">You've unlocked free shipping! 🎉</span>
+                  ? <span className="text-[#1B1B1B]/65 dark:text-[#FDF8EF]/65">Add <strong>{fmt(remaining)}</strong> for free shipping</span>
+                  : <span className="text-[#1D4D4F] dark:text-[#4A9EA1] font-semibold">You've unlocked free shipping! 🎉</span>
                 }
               </div>
             )}
 
+            {/* Items list */}
             <div className="flex-1 overflow-y-auto py-3 px-4 space-y-3">
               <AnimatePresence initial={false}>
                 {items.length === 0 ? (
@@ -77,11 +84,11 @@ export default function CartDrawer() {
                     className="flex flex-col items-center justify-center h-full gap-4 py-16"
                   >
                     <span className="text-6xl text-[#C89D29]/30 select-none">𓋹</span>
-                    <p className="font-black hieroglyph-font text-[#1B1B1B]/25 text-xs tracking-widest">
+                    <p className="font-black hieroglyph-font text-[#1B1B1B]/25 dark:text-[#FDF8EF]/25 text-xs tracking-widest">
                       YOUR CART IS EMPTY
                     </p>
                     <Link href="/collection" onClick={closeCart}
-                      className="bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] px-5 py-2.5 text-xs font-black hieroglyph-font sketchy-button transition-all">
+                      className="bg-[#1B1B1B] dark:bg-[#FDF8EF] text-[#FDF8EF] dark:text-[#1B1B1B] hover:bg-[#C89D29] hover:text-[#1B1B1B] dark:hover:bg-[#C89D29] px-5 py-2.5 text-xs font-black hieroglyph-font sketchy-button transition-all">
                       BROWSE COLLECTION
                     </Link>
                   </motion.div>
@@ -96,30 +103,36 @@ export default function CartDrawer() {
                       className="ohanna-card flex gap-3 p-3"
                     >
                       <Link href={`/product/${item.product.slug ?? item.product.id}`} onClick={closeCart}
-                        className="relative w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-[#E4D5B7]">
-                        <img src={item.product.image_url} alt={item.product.name} className="w-full h-full object-cover" />
+                        className="relative w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-[#E4D5B7] dark:bg-[#2A1E14]">
+                        <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover" />
                       </Link>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-black hieroglyph-font truncate">{item.product.name}</p>
-                        {item.size && <p className="text-[10px] text-[#1B1B1B]/45 mt-0.5">Size: {item.size}</p>}
+                        <p className="text-xs font-black hieroglyph-font truncate text-[#1B1B1B] dark:text-[#FDF8EF]">
+                          {item.product.name}
+                        </p>
+                        {item.size && (
+                          <p className="text-[10px] text-[#1B1B1B]/45 dark:text-[#FDF8EF]/45 mt-0.5">
+                            Size: {item.size}
+                          </p>
+                        )}
                         <p className="text-[#C89D29] font-black text-sm mt-1">
                           {fmt(item.product.price * item.quantity)}
                         </p>
                         <div className="flex items-center gap-2 mt-2">
-                          <div className="flex items-center border border-[#1B1B1B]/12 rounded-md overflow-hidden">
+                          <div className="flex items-center border border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12 rounded-md overflow-hidden">
                             <button
                               onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.size)}
-                              className="w-7 h-7 flex items-center justify-center hover:bg-[#1B1B1B]/5 transition-colors"
+                              className="w-7 h-7 flex items-center justify-center text-[#1B1B1B] dark:text-[#FDF8EF] hover:bg-[#1B1B1B]/5 dark:hover:bg-[#FDF8EF]/5 transition-colors"
                               aria-label="Decrease"
                             >
                               <Minus className="h-3 w-3" />
                             </button>
-                            <span className="w-7 text-center text-xs font-bold border-x border-[#1B1B1B]/10">
+                            <span className="w-7 text-center text-xs font-bold border-x border-[#1B1B1B]/10 dark:border-[#FDF8EF]/10 text-[#1B1B1B] dark:text-[#FDF8EF]">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.size)}
-                              className="w-7 h-7 flex items-center justify-center hover:bg-[#1B1B1B]/5 transition-colors"
+                              className="w-7 h-7 flex items-center justify-center text-[#1B1B1B] dark:text-[#FDF8EF] hover:bg-[#1B1B1B]/5 dark:hover:bg-[#FDF8EF]/5 transition-colors"
                               aria-label="Increase"
                             >
                               <Plus className="h-3 w-3" />
@@ -132,7 +145,7 @@ export default function CartDrawer() {
                           removeFromCart(item.product.id, item.size);
                           toast.success(`${item.product.name} removed`);
                         }}
-                        className="p-1 text-[#1B1B1B]/25 hover:text-[#AE1C1C] transition-colors self-start mt-0.5"
+                        className="p-1 text-[#1B1B1B]/25 dark:text-[#FDF8EF]/25 hover:text-[#AE1C1C] dark:hover:text-[#F87171] transition-colors self-start mt-0.5"
                         aria-label="Remove item"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -143,33 +156,34 @@ export default function CartDrawer() {
               </AnimatePresence>
             </div>
 
+            {/* Checkout footer */}
             {items.length > 0 && (
-              <div className="border-t border-[#1B1B1B]/10 p-4 bg-white space-y-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)]">
+              <div className="border-t border-[#1B1B1B]/10 dark:border-[#FDF8EF]/10 p-4 bg-[#FDF8EF] dark:bg-[#221A12] space-y-3 shadow-[0_-4px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.25)]">
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs text-[#1B1B1B]/55">
+                  <div className="flex justify-between text-xs text-[#1B1B1B]/55 dark:text-[#FDF8EF]/55">
                     <span>Subtotal</span>
                     <span className="font-semibold">{fmt(total)}</span>
                   </div>
-                  <div className="flex justify-between text-xs text-[#1B1B1B]/55">
+                  <div className="flex justify-between text-xs text-[#1B1B1B]/55 dark:text-[#FDF8EF]/55">
                     <span>Shipping</span>
-                    <span className={`font-semibold ${shippingFee === 0 ? "text-[#1D4D4F]" : ""}`}>
+                    <span className={`font-semibold ${shippingFee === 0 ? "text-[#1D4D4F] dark:text-[#4A9EA1]" : ""}`}>
                       {shippingFee === 0 ? "FREE" : fmt(shippingFee)}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center pt-1.5 border-t border-[#1B1B1B]/8">
-                    <span className="font-black hieroglyph-font text-sm tracking-wider">TOTAL</span>
+                  <div className="flex justify-between items-center pt-1.5 border-t border-[#1B1B1B]/8 dark:border-[#FDF8EF]/8">
+                    <span className="font-black hieroglyph-font text-sm tracking-wider text-[#1B1B1B] dark:text-[#FDF8EF]">TOTAL</span>
                     <span className="font-black text-[#C89D29] text-xl">{fmt(total + shippingFee)}</span>
                   </div>
                 </div>
                 <button
                   onClick={handleCheckout}
-                  className="w-full bg-[#1B1B1B] text-[#FDF8EF] hover:bg-[#C89D29] hover:text-[#1B1B1B] py-3 font-black hieroglyph-font text-sm sketchy-button transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-[#1B1B1B] dark:bg-[#FDF8EF] text-[#FDF8EF] dark:text-[#1B1B1B] hover:bg-[#C89D29] hover:text-[#1B1B1B] dark:hover:bg-[#C89D29] dark:hover:text-[#1B1B1B] py-3 font-black hieroglyph-font text-sm sketchy-button transition-all flex items-center justify-center gap-2"
                 >
                   CHECKOUT
                   <ArrowRight className="h-4 w-4" />
                 </button>
                 <Link href="/collection" onClick={closeCart}
-                  className="block text-center text-xs text-[#1B1B1B]/40 hover:text-[#C89D29] transition-colors font-semibold">
+                  className="block text-center text-xs text-[#1B1B1B]/40 dark:text-[#FDF8EF]/40 hover:text-[#C89D29] transition-colors font-semibold">
                   Continue Shopping
                 </Link>
               </div>

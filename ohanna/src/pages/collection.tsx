@@ -5,17 +5,21 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ProductCard from "@/components/product/product-card";
 import { ProductGridSkeleton } from "@/components/product/product-skeleton";
+import WaveDivider from "@/components/ui/wave-divider";
 import { CATEGORIES, getProductsByCategory, setProducts } from "@/lib/products-data";
 import { apiClient } from "@/lib/api-client";
 import type { Product } from "@/types";
+import { SEO } from "@/components/seo/seo";
+import { SEO_DATA } from "@/lib/seo-data";
+import { useLang } from "@/contexts/lang-context";
 
 const PAGE_SIZE = 6;
 
 function useDebounce<T>(val: T, ms: number) {
   const [deb, setDeb] = useState(val);
   useEffect(() => {
-    const t = setTimeout(() => setDeb(val), ms);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setDeb(val), ms);
+    return () => clearTimeout(timer);
   }, [val, ms]);
   return deb;
 }
@@ -26,13 +30,13 @@ function getInitialCategory() {
 }
 
 export default function CollectionPage() {
+  const { t } = useLang();
   const [category, setCategory] = useState(getInitialCategory);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [products, setLocalProducts] = useState<Product[]>([]);
 
-  // Fetch products from API on mount
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -42,12 +46,10 @@ export default function CollectionPage() {
         setProducts(data);
       } catch (err) {
         console.error("Failed to fetch products:", err);
-        // Fallback to local data is handled by products-data.ts
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -58,7 +60,10 @@ export default function CollectionPage() {
     if (debouncedSearch.trim()) {
       const q = debouncedSearch.toLowerCase();
       results = results.filter(
-        (p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q),
       );
     }
     return results;
@@ -69,8 +74,8 @@ export default function CollectionPage() {
 
   useEffect(() => {
     setLoading(true);
-    const t = setTimeout(() => setLoading(false), 250);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setLoading(false), 250);
+    return () => clearTimeout(timer);
   }, [category, debouncedSearch]);
 
   useEffect(() => {
@@ -86,10 +91,12 @@ export default function CollectionPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FDF8EF] flex flex-col">
+    <div className="min-h-screen section-paper flex flex-col">
+      <SEO {...SEO_DATA.collection} />
       <Navbar />
 
-      <section className="py-14 bg-gradient-to-b from-[#E4D5B7]/70 to-[#FDF8EF]">
+      {/* ── HEADER ── */}
+      <section className="py-14 section-sand">
         <div className="container mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -97,43 +104,51 @@ export default function CollectionPage() {
               <Eye className="h-7 w-7 text-[#C89D29]" />
               <div className="h-1 w-12 bg-[#C89D29] sketchy-line" />
             </div>
-            <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-3">
-              SACRED <span className="text-[#C89D29]">COLLECTION</span>
+            <h1 className="text-4xl sm:text-6xl font-black hieroglyph-font mb-3 section-heading">
+              {t("collection.heroTitle")} <span className="text-[#C89D29]">{t("collection.heroTitleGold")}</span>
             </h1>
-            <p className="text-[#1B1B1B]/55 text-sm">
-              {filtered.length} premium Egyptian streetwear piece{filtered.length !== 1 ? "s" : ""}
-              {category !== "All" && ` in ${category}`}
+            <p className="section-muted text-sm">
+              {filtered.length} {filtered.length !== 1 ? t("collection.piecesPlural") : t("collection.pieces")}
+              {category !== "All" && ` ${t("collection.inCategory")} ${category}`}
             </p>
           </motion.div>
         </div>
       </section>
 
-      <div className="sticky top-[61px] z-20 bg-[#FDF8EF]/95 backdrop-blur-sm border-b border-[#1B1B1B]/8 py-3 shadow-sm">
+      {/* Wave: Header → Filters/Products */}
+      <WaveDivider from="sand" to="paper" variant={1} />
+
+      {/* ── FILTER BAR ── */}
+      <div className="sticky top-[61px] z-20 section-paper border-b border-[#1B1B1B]/8 dark:border-[#FDF8EF]/8 py-3 shadow-sm backdrop-blur-sm bg-opacity-95">
         <div className="container mx-auto px-4 space-y-3">
           <div className="relative max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#1B1B1B]/35 pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 section-faint pointer-events-none" />
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search pieces..."
-              className="w-full pl-9 pr-8 py-2 text-sm border-2 border-[#1B1B1B]/12 rounded-lg bg-white focus:outline-none focus:border-[#C89D29] transition-colors placeholder:text-[#1B1B1B]/30"
+              placeholder={t("collection.searchPlaceholder")}
+              className="w-full pl-9 pr-8 py-2 text-sm border-2 border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12 rounded-lg section-paper focus:outline-none focus:border-[#C89D29] transition-colors section-muted placeholder:section-faint"
             />
             {searchInput && (
-              <button onClick={() => setSearchInput("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#1B1B1B]/40 hover:text-[#1B1B1B]" aria-label="Clear search">
+              <button
+                onClick={() => setSearchInput("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 section-faint hover:section-heading"
+                aria-label="Clear search"
+              >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
-            <Filter className="h-4 w-4 text-[#1B1B1B]/35 shrink-0" />
+            <Filter className="h-4 w-4 section-faint shrink-0" />
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => handleCategory(cat)}
                 className={`shrink-0 px-4 py-1.5 text-xs font-black hieroglyph-font border-2 rounded-md transition-all ${
                   category === cat
-                    ? "bg-[#1B1B1B] text-[#FDF8EF] border-[#1B1B1B]"
-                    : "bg-white border-[#1B1B1B]/12 text-[#1B1B1B]/55 hover:border-[#C89D29] hover:text-[#C89D29]"
+                    ? "bg-[#1B1B1B] dark:bg-[#FDF8EF] text-[#FDF8EF] dark:text-[#1B1B1B] border-[#1B1B1B] dark:border-[#FDF8EF]"
+                    : "section-paper border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12 section-faint hover:border-[#C89D29] hover:text-[#C89D29]"
                 }`}
               >
                 {cat}
@@ -143,16 +158,20 @@ export default function CollectionPage() {
         </div>
       </div>
 
-      <main className="flex-1 py-10">
+      {/* ── PRODUCTS ── */}
+      <main className="flex-1 py-10 section-paper">
         <div className="container mx-auto px-4">
           {loading ? (
             <ProductGridSkeleton count={PAGE_SIZE} />
           ) : filtered.length === 0 ? (
             <div className="text-center py-24">
               <span className="text-6xl block mb-4 text-[#C89D29]/30">𓋹</span>
-              <p className="font-black hieroglyph-font text-[#1B1B1B]/30 text-xs tracking-widest mb-2">NO PIECES FOUND</p>
-              <button onClick={() => { setSearchInput(""); handleCategory("All"); }} className="mt-4 text-xs font-black hieroglyph-font text-[#C89D29] hover:underline">
-                CLEAR FILTERS
+              <p className="font-black hieroglyph-font section-faint text-xs tracking-widest mb-2">{t("collection.noPiecesFound")}</p>
+              <button
+                onClick={() => { setSearchInput(""); handleCategory("All"); }}
+                className="mt-4 text-xs font-black hieroglyph-font text-[#C89D29] hover:underline"
+              >
+                {t("collection.clearFilters")}
               </button>
             </div>
           ) : (
@@ -165,19 +184,32 @@ export default function CollectionPage() {
 
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-12">
-                  <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all">
-                    <ChevronLeft className="h-3.5 w-3.5" />PREV
+                  <button
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 dark:border-[#FDF8EF]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all section-heading"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5" />{t("collection.prev")}
                   </button>
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                    <button key={n} onClick={() => setPage(n)}
-                      className={`w-9 h-9 text-xs font-black hieroglyph-font rounded-lg border-2 transition-all ${n === page ? "bg-[#C89D29] border-[#C89D29] text-[#1B1B1B]" : "border-[#1B1B1B]/12 text-[#1B1B1B]/55 hover:border-[#C89D29] hover:text-[#C89D29]"}`}>
+                    <button
+                      key={n}
+                      onClick={() => setPage(n)}
+                      className={`w-9 h-9 text-xs font-black hieroglyph-font rounded-lg border-2 transition-all ${
+                        n === page
+                          ? "bg-[#C89D29] border-[#C89D29] text-[#1B1B1B]"
+                          : "border-[#1B1B1B]/12 dark:border-[#FDF8EF]/12 section-faint hover:border-[#C89D29] hover:text-[#C89D29]"
+                      }`}
+                    >
                       {n}
                     </button>
                   ))}
-                  <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all">
-                    NEXT<ChevronRight className="h-3.5 w-3.5" />
+                  <button
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={page === totalPages}
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-black hieroglyph-font border-2 border-[#1B1B1B]/15 dark:border-[#FDF8EF]/15 rounded-lg hover:border-[#C89D29] hover:text-[#C89D29] disabled:opacity-30 disabled:cursor-not-allowed transition-all section-heading"
+                  >
+                    {t("collection.next")}<ChevronRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}
@@ -185,6 +217,10 @@ export default function CollectionPage() {
           )}
         </div>
       </main>
+
+      {/* Wave: Products → Footer */}
+      <WaveDivider from="paper" to="ink" variant={3} />
+
       <Footer />
     </div>
   );

@@ -58,7 +58,8 @@
   --sidebar-accent-foreground: 0 0% 11%;
   --sidebar-ring: 41 56% 48%;
 
-  --app-font-sans: 'Inter', system-ui, sans-serif;
+  --app-font-sans: 'Barlow', system-ui, sans-serif;
+  --app-font-arabic: 'Cairo', system-ui, sans-serif;
   --app-font-serif: 'Cinzel', Georgia, serif;
   --app-font-mono: Menlo, monospace;
   --radius: 0.5rem;
@@ -143,8 +144,58 @@
     -webkit-font-smoothing: antialiased;
     background-color: #FDF8EF;
     color: #1B1B1B;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .dark body {
+    background-color: #171310;
+    color: #FDF8EF;
+  }
+
+  /* Arabic body font */
+  body.font-arabic {
+    font-family: var(--app-font-arabic);
   }
 }
+
+/* ===== OHANNA SECTION BACKGROUNDS (theme-aware) ===== */
+
+/* Paper — warm off-white / deep warm black */
+.section-paper { background-color: #FDF8EF; }
+.dark .section-paper { background-color: #1A1410; }
+
+/* Sand — warm tan / dark warm brown */
+.section-sand { background-color: #E4D5B7; }
+.dark .section-sand { background-color: #2A1E14; }
+
+/* Ink — near-black / deeper black */
+.section-ink { background-color: #1B1B1B; }
+.dark .section-ink { background-color: #0D0B09; }
+
+/* Gold — stays gold in both modes */
+.section-gold { background-color: #C89D29; }
+
+/* Hero gradient — sand-to-paper / dark version */
+.section-hero-gradient {
+  background: linear-gradient(160deg, #E4D5B7 0%, #FDF8EF 100%);
+}
+.dark .section-hero-gradient {
+  background: linear-gradient(160deg, #2A1E14 0%, #1A1410 100%);
+}
+
+/* ===== OHANNA SEMANTIC TEXT COLORS (theme-aware) ===== */
+
+/* Full heading text — dark in light, light in dark */
+.section-heading { color: #1B1B1B; }
+.dark .section-heading { color: #FDF8EF; }
+
+/* Body / secondary text */
+.section-muted { color: rgba(27, 27, 27, 0.68); }
+.dark .section-muted { color: rgba(253, 248, 239, 0.68); }
+
+/* Faint / tertiary text */
+.section-faint { color: rgba(27, 27, 27, 0.42); }
+.dark .section-faint { color: rgba(253, 248, 239, 0.42); }
 
 /* ===== OHANNA CUSTOM CLASSES ===== */
 
@@ -169,25 +220,25 @@
 /* Sketchy border — hand-drawn look using box-shadow */
 .sketchy-border {
   border: 2px solid #1B1B1B;
-  border-radius: 0;
+  border-radius: 0.5rem;
   box-shadow: 3px 3px 0 #1B1B1B;
 }
 
 /* Thicker sketchy border for image frames */
 .sketchy-border-thick {
   border: 3px solid #1B1B1B;
-  border-radius: 0;
+  border-radius: 0.75rem;
   box-shadow: 5px 5px 0 #1B1B1B;
 }
 
 /* Sketchy button - raised effect */
 .sketchy-button {
-  border-radius: 0;
-  box-shadow: 3px 3px 0 rgba(27,27,27,0.35);
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 0 rgba(27,27,27,0.30);
   transition: box-shadow 0.15s, transform 0.15s;
 }
 .sketchy-button:hover {
-  box-shadow: 1px 1px 0 rgba(27,27,27,0.35);
+  box-shadow: 1px 1px 0 rgba(27,27,27,0.30);
   transform: translate(2px, 2px);
 }
 .sketchy-button:active {
@@ -197,20 +248,29 @@
 
 /* Sketchy decorative line */
 .sketchy-line {
-  border-radius: 0;
+  border-radius: 2px;
   position: relative;
 }
 
 /* Main card style — clean with border and subtle shadow */
 .ohanna-card {
-  background: white;
-  border: 2px solid #1B1B1B;
-  border-radius: 0;
-  box-shadow: 4px 4px 0 rgba(27,27,27,0.08);
+  background: #FDF8EF;
+  border: 2px solid rgba(27,27,27,0.12);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(27,27,27,0.07);
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .ohanna-card:hover {
-  box-shadow: 6px 6px 0 rgba(27,27,27,0.12);
+  box-shadow: 0 6px 20px rgba(27,27,27,0.11);
+  transform: translateY(-1px);
+}
+.dark .ohanna-card {
+  background: #1E1B17;
+  border-color: rgba(253,248,239,0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.dark .ohanna-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
 
 /* OHANNA input style */
@@ -221,8 +281,8 @@
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1.5;
-  transition: border-color 0.15s;
-  background: white;
+  transition: border-color 0.15s, background 0.15s;
+  background: #FDF8EF;
   color: #1B1B1B;
 }
 .ohanna-input:focus {
@@ -231,6 +291,17 @@
 }
 .ohanna-input::placeholder {
   color: rgba(27,27,27,0.3);
+}
+.dark .ohanna-input {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(253,248,239,0.12);
+  color: #FDF8EF;
+}
+.dark .ohanna-input:focus {
+  border-color: #C89D29;
+}
+.dark .ohanna-input::placeholder {
+  color: rgba(253,248,239,0.25);
 }
 
 /* Scrollbar styling */
