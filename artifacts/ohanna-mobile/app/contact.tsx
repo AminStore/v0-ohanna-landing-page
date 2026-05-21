@@ -17,12 +17,12 @@ import {
 
 import { GoldDivider } from "@/components/GoldDivider";
 import { getApiBase } from "@/constants/products";
+import { BD, BTN_H, FS, GRID_PAD, LS, RD, SHADOW, SP } from "@/constants/theme";
 import { useColors } from "@/hooks/useColors";
 
 export default function ContactScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -64,13 +64,22 @@ export default function ContactScreen() {
       bottomOffset={16}
       keyboardShouldPersistTaps="handled"
     >
-      {/* Header */}
-      <View style={[styles.header, { paddingTop: Platform.OS === "web" ? 67 + 16 : insets.top + 16, backgroundColor: "#1B1B1B" }]}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Platform.OS === "web" ? 67 + GRID_PAD : insets.top + GRID_PAD,
+            backgroundColor: colors.foreground,
+          },
+        ]}
+      >
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
-          <Feather name="arrow-left" size={20} color="#FDF8EF" />
+          <Feather name="arrow-left" size={20} color={colors.background} />
         </Pressable>
-        <Text style={[styles.headerTitle, { color: "#FDF8EF" }]}>GET IN TOUCH</Text>
-        <Text style={[styles.headerSub, { color: colors.primary }]}>𓂀 WE'D LOVE TO HEAR FROM YOU</Text>
+        <Text style={[styles.headerTitle, { color: colors.background }]}>GET IN TOUCH</Text>
+        <Text style={[styles.headerSub, { color: colors.primary }]}>
+          𓂀 WE'D LOVE TO HEAR FROM YOU
+        </Text>
       </View>
 
       <View style={[styles.content, { backgroundColor: colors.background }]}>
@@ -80,10 +89,19 @@ export default function ContactScreen() {
         <View style={styles.infoRow}>
           {[
             { icon: "map-pin" as const, text: "Maadi, Cairo, Egypt" },
-            { icon: "mail" as const, text: "info@ohanna.store" },
+            { icon: "mail"    as const, text: "info@ohanna.store" },
           ].map((c) => (
-            <View key={c.text} style={[styles.infoChip, { backgroundColor: colors.card, borderColor: colors.border }]}>
-              <Feather name={c.icon} size={12} color={colors.primary} />
+            <View
+              key={c.text}
+              style={[
+                styles.infoChip,
+                { ...SHADOW.xs },
+                { backgroundColor: colors.card, borderColor: colors.border },
+              ]}
+            >
+              <View style={[styles.infoIconBg, { backgroundColor: colors.primary + "14" }]}>
+                <Feather name={c.icon} size={12} color={colors.primary} />
+              </View>
               <Text style={[styles.infoText, { color: colors.mutedForeground }]}>{c.text}</Text>
             </View>
           ))}
@@ -91,11 +109,10 @@ export default function ContactScreen() {
 
         <Text style={[styles.formTitle, { color: colors.foreground }]}>SEND A MESSAGE</Text>
 
-        {/* Inputs */}
         {[
-          { key: "name" as const, label: "FULL NAME *", placeholder: "Your name", type: "default" as const },
-          { key: "email" as const, label: "EMAIL *", placeholder: "your@email.com", type: "email-address" as const },
-          { key: "subject" as const, label: "SUBJECT", placeholder: "What's this about?", type: "default" as const },
+          { key: "name"    as const, label: "FULL NAME *",  placeholder: "Your name",            type: "default"       as const },
+          { key: "email"   as const, label: "EMAIL *",      placeholder: "your@email.com",        type: "email-address" as const },
+          { key: "subject" as const, label: "SUBJECT",      placeholder: "What's this about?",    type: "default"       as const },
         ].map((field) => (
           <View key={field.key} style={styles.fieldGroup}>
             <Text style={[styles.fieldLabel, { color: colors.mutedForeground }]}>{field.label}</Text>
@@ -106,7 +123,15 @@ export default function ContactScreen() {
               placeholderTextColor={colors.mutedForeground}
               keyboardType={field.type}
               autoCapitalize={field.type === "email-address" ? "none" : "words"}
-              style={[styles.input, { color: colors.foreground, borderColor: colors.border, backgroundColor: colors.card, fontFamily: "Inter_400Regular" }]}
+              style={[
+                styles.input,
+                {
+                  color: colors.foreground,
+                  borderColor: colors.border,
+                  backgroundColor: colors.card,
+                  fontFamily: "Inter_400Regular",
+                },
+              ]}
             />
           </View>
         ))}
@@ -120,12 +145,25 @@ export default function ContactScreen() {
             placeholderTextColor={colors.mutedForeground}
             multiline
             numberOfLines={5}
-            style={[styles.textarea, { color: colors.foreground, borderColor: colors.border, backgroundColor: colors.card, fontFamily: "Inter_400Regular" }]}
+            style={[
+              styles.textarea,
+              {
+                color: colors.foreground,
+                borderColor: colors.border,
+                backgroundColor: colors.card,
+                fontFamily: "Inter_400Regular",
+              },
+            ]}
           />
         </View>
 
         {error ? (
-          <View style={[styles.errorBox, { backgroundColor: "rgba(174,28,28,0.1)", borderColor: colors.destructive }]}>
+          <View
+            style={[
+              styles.errorBox,
+              { backgroundColor: "rgba(174,28,28,0.08)", borderColor: colors.destructive + "60" },
+            ]}
+          >
             <Feather name="alert-circle" size={14} color={colors.destructive} />
             <Text style={[styles.errorText, { color: colors.destructive }]}>{error}</Text>
           </View>
@@ -134,6 +172,7 @@ export default function ContactScreen() {
         <Pressable
           style={({ pressed }) => [
             styles.submitBtn,
+            { ...SHADOW.gold },
             { backgroundColor: colors.foreground, opacity: pressed || loading ? 0.85 : 1 },
           ]}
           onPress={handleSubmit}
@@ -157,94 +196,75 @@ export default function ContactScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    padding: 20,
-    paddingBottom: 24,
-    gap: 4,
+    padding: GRID_PAD,
+    paddingBottom: SP.xxl,
+    gap: SP.xs,
   },
   backBtn: {
-    marginBottom: 8,
-    width: 40,
+    width: 36,
+    height: 36,
+    borderRadius: RD.circle,
+    backgroundColor: "rgba(255,255,255,0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: SP.sm,
   },
-  headerTitle: {
-    fontSize: 22,
-    fontFamily: "Cinzel_900Black",
-    letterSpacing: 2,
-  },
-  headerSub: {
-    fontSize: 10,
-    fontFamily: "Cinzel_700Bold",
-    letterSpacing: 2,
-  },
-  content: {
-    padding: 20,
-    gap: 14,
-    flex: 1,
-  },
-  infoRow: {
-    gap: 8,
-  },
+  headerTitle: { fontSize: FS.h3, fontFamily: "Cinzel_900Black", letterSpacing: LS.widest },
+  headerSub: { fontSize: FS.xs, fontFamily: "Cinzel_700Bold", letterSpacing: LS.widest },
+  content: { padding: GRID_PAD, gap: SP.md, flex: 1 },
+  infoRow: { gap: SP.sm },
   infoChip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    padding: 10,
-    borderWidth: 1.5,
+    gap: SP.sm,
+    padding: SP.md,
+    borderWidth: BD.thin,
+    borderRadius: RD.md,
   },
-  infoText: {
-    fontSize: 12,
-    fontFamily: "Inter_400Regular",
+  infoIconBg: {
+    width: 28,
+    height: 28,
+    borderRadius: RD.sm,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  formTitle: {
-    fontSize: 13,
-    fontFamily: "Cinzel_700Bold",
-    letterSpacing: 2,
-    marginTop: 4,
-  },
-  fieldGroup: {
-    gap: 6,
-  },
-  fieldLabel: {
-    fontSize: 9,
-    fontFamily: "Cinzel_700Bold",
-    letterSpacing: 1.5,
-  },
+  infoText: { fontSize: FS.md, fontFamily: "Inter_400Regular" },
+  formTitle: { fontSize: FS.base, fontFamily: "Cinzel_700Bold", letterSpacing: LS.widest, marginTop: SP.xs },
+  fieldGroup: { gap: SP.xs + 2 },
+  fieldLabel: { fontSize: FS.xxs, fontFamily: "Cinzel_700Bold", letterSpacing: LS.wider },
   input: {
-    borderWidth: 1.5,
-    paddingHorizontal: 14,
-    paddingVertical: 13,
-    fontSize: 14,
+    borderWidth: BD.thin,
+    borderRadius: RD.sm,
+    paddingHorizontal: SP.md,
+    paddingVertical: SP.md + 1,
+    fontSize: FS.lg,
   },
   textarea: {
-    borderWidth: 1.5,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 14,
+    borderWidth: BD.thin,
+    borderRadius: RD.sm,
+    paddingHorizontal: SP.md,
+    paddingVertical: SP.md,
+    fontSize: FS.lg,
     minHeight: 120,
     textAlignVertical: "top",
   },
   errorBox: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    padding: 12,
-    borderWidth: 1,
+    gap: SP.sm,
+    padding: SP.md,
+    borderWidth: BD.thin,
+    borderRadius: RD.sm,
   },
-  errorText: {
-    fontSize: 13,
-    fontFamily: "Inter_400Regular",
-    flex: 1,
-  },
+  errorText: { fontSize: FS.base, fontFamily: "Inter_400Regular", flex: 1 },
   submitBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
-    paddingVertical: 15,
-    minHeight: 52,
+    gap: SP.md,
+    paddingVertical: SP.lg,
+    minHeight: BTN_H.lg,
+    borderRadius: RD.sm,
   },
-  submitBtnText: {
-    fontSize: 11,
-    fontFamily: "Cinzel_700Bold",
-    letterSpacing: 2,
-  },
+  submitBtnText: { fontSize: FS.sm, fontFamily: "Cinzel_700Bold", letterSpacing: LS.widest },
 });
