@@ -1,48 +1,18 @@
-# 🤝 Contributor Covenant Code of Conduct
+# Code of Conduct
 
-## 1. Our Pledge
+## Our Pledge
 
-We, as members, contributors, and leaders of the **OHANNA** community, pledge to make participation in our project and our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+We as members, contributors, and leaders pledge to make participation in this project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
+## Our Standards
 
----
+* **Be respectful** – use welcoming and inclusive language.
+* **Be collaborative** – constructive criticism is valued; personal attacks are not.
+* **Be mindful** – consider how your actions affect others.
+* **Be open** – share knowledge, foster learning.
 
-## 2. Our Standards
+## Enforcement
 
-Examples of behavior that contributes to a positive environment for our community include:
-* Demonstrating empathy and kindness toward other people.
-* Being respectful of differing opinions, viewpoints, and experiences.
-* Giving and gracefully accepting constructive feedback.
-* Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience.
-* Focusing on what is best for the overall community, not just for individuals.
+Instances of harassment or unacceptable behavior may be reported to the project maintainers. All complaints will be reviewed and investigated, and appropriate action will be taken.
 
-Examples of unacceptable behavior include:
-* The use of sexualized language or imagery, and unwelcome sexual attention or advances.
-* Trolling, insulting or derogatory comments, and personal or political attacks.
-* Public or private harassment.
-* Publishing others' private information, such as a physical or email address, without their explicit permission.
-* Other conduct which could reasonably be considered inappropriate in a professional setting.
-
----
-
-## 3. Enforcement Responsibilities
-
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior they deem inappropriate, threatening, offensive, or harmful.
-
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
-
----
-
-## 4. Scope
-
-This Code of Conduct applies within all project spaces, and also applies when an individual is officially representing the project or its community in public spaces. Examples of representing our project or community include using an official email address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
-
----
-
-## 5. Enforcement & Reporting
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders at:
-📧 **conduct@ohanna.com**
-
-All complaints will be reviewed and investigated promptly and fairly. All community leaders are obligated to respect the privacy and security of the reporter of any incident.
+For more details, see the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).

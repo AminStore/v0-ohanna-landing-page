@@ -1,41 +1,18 @@
-# 🛡️ Security Policy
+# Security Policy
 
-We take the security of the **OHANNA** platform, database infrastructure, and transactional pipelines very seriously. If you believe you have discovered a security vulnerability in this project, please report it to us following the procedures outlined below.
+## Reporting Security Issues
 
----
+If you discover a security vulnerability, please report it privately to the maintainers:
 
-## 📞 Reporting a Vulnerability
+- **Email**: security@ohanna.com (replace with actual email)
+- **GitHub**: Open a private issue in the repository (if enabled) or contact the repository owners directly.
 
-> [!CAUTION]
-> Do NOT create public GitHub issues for security vulnerabilities, exploits, or potential attack vectors. Doing so exposes the platform and user transactions to immediate risk.
+We will respond promptly, assess the issue, and work with you to resolve it. Please do not disclose the vulnerability publicly until a fix is available.
 
-Please report all security vulnerabilities privately. Send an email to the security triage team at:
-📧 **security@ohanna.com**
+## Supported Versions
 
-In your report, please include:
-1. **Description**: A summary of the vulnerability and the potential impact.
-2. **Steps to Reproduce**: Detailed instructions, curl scripts, or payloads to trigger the behavior.
-3. **Environment**: The target components (`api-server`, frontend `ohanna`, or mobile client `ohanna-mobile`) and system versions.
-4. **Remediation**: If you have a proposed fix, please include details.
+All versions tagged as `v*` are supported. Unreleased code on the `main` branch is also considered supported.
 
-We will acknowledge receipt of your report within **24 hours** and provide a timeline for resolution.
+## Security Updates
 
----
-
-## 📋 Supported Versions
-
-We actively support and apply security patches to the following release versions:
-
-| Version | Supported | Notes |
-| :--- | :--- | :--- |
-| `v1.x` | Yes | Active production and main development branch. |
-| `v0.x` | No | Legacy preview releases; please upgrade to `v1.x`. |
-
----
-
-## ⚖️ Disclosure & Grace Period
-
-* We ask that you give us a reasonable grace period (typically **30 days** depending on severity) to address the issue before disclosing it publicly or sharing it with third parties.
-* We adhere to responsible disclosure principles. We will credit you for the discovery in our release logs once a patch is successfully deployed.
-
-*Thank you for helping us keep the OHANNA community safe.*
+Security patches will be released as soon as possible and communicated via the repository's releases and changelog.

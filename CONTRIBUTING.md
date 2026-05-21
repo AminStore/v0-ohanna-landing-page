@@ -1,77 +1,47 @@
-# 🤝 Contributing to OHANNA
+# Contributing to Ohanna
 
-Thank you for choosing to contribute to the **OHANNA** Egyptian Streetwear e-commerce platform! We appreciate your support in building a premium storefront.
+Thank you for considering contributing to **Ohanna**! We welcome contributions of any kind—bug reports, feature requests, documentation improvements, or code contributions.
 
-Following these guidelines ensures that your contributions are merged swiftly and maintain the high quality of the codebase.
+## Getting Started
 
----
+1. **Fork the repository** and clone your fork:
+   ```bash
+   git clone https://github.com/your-username/ohanna-landing-page.git
+   cd ohanna-landing-page
+   ```
+2. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+   > We use **pnpm** for fast, deterministic installs.
+3. **Run the development servers**:
+   - Web client: `pnpm dev:web`
+   - Mobile client: `pnpm dev:mobile`
+   - API server: `pnpm dev:api`
+4. **Create a new branch** for your work:
+   ```bash
+   git checkout -b feature/awesome-new-feature
+   ```
+5. **Make your changes**, add tests where applicable, and ensure the existing test suite passes:
+   ```bash
+   pnpm test
+   ```
+6. **Commit** with clear, descriptive messages following the Conventional Commits style.
+7. **Push** to your fork and open a Pull Request against the `main` branch.
 
-## 🧭 Development Workflow
+## Code Style & Linting
 
-### 1. File an Issue or Pick a Milestone
-Before starting work, ensure there is an active issue tracking your task. This aligns design decisions and avoids duplicating work.
+- Use **Prettier** and **ESLint** with the project's shared configuration.
+- Follow the existing folder structure and naming conventions.
+- Write TypeScript types explicitly; avoid `any`.
+- Add **JSDoc** comments for public functions.
 
-### 2. Configure Your Workspace
-Refer to the [🛠️ Development Setup Guide](./docs/SETUP.md) to set up your local environment, install dependencies across workspaces (`api-server`, `ohanna`, `ohanna-mobile`), and run the dev server.
+## Review Process
 
-### 3. Git Branch Nomenclature
-Create a descriptive branch for your work. Use the following prefix conventions:
+- All PRs undergo automated CI checks (type‑checking, lint, test suite).
+- A maintainers' review is required before merging.
+- Include a brief description of the change, relevant issue numbers, and screenshots if UI changes are involved.
 
-| Branch Prefix | Purpose | Example |
-| :--- | :--- | :--- |
-| `feat/` | Adding a new feature | `feat/mobile-cart-blur` |
-| `fix/` | Fixing a bug | `fix/api-cors-origin` |
-| `docs/` | Documentation changes | `docs/contributing-guidelines` |
-| `refactor/` | Non-functional code changes | `refactor/drizzle-connections` |
-| `test/` | Adding or updating tests | `test/checkout-validation` |
+## Thanks!
 
----
-
-## 📜 Conventional Commits Standard
-
-We enforce the **Conventional Commits** specification for all commit messages. This keeps the git history clean, parseable, and allows for automated changelog generation.
-
-### Format
-```
-<type>(<scope>): <short summary>
-
-[Optional body detailing rationale and design considerations]
-
-[Optional footer references like Closes #12]
-```
-
-### Allowable Types
-* `feat`: A new user-facing feature.
-* `fix`: A bug fix.
-* `docs`: Documentation updates.
-* `style`: Styling changes that do not affect code logic (whitespace, formatting).
-* `refactor`: Code changes that neither fix a bug nor add a feature.
-* `test`: Adding missing tests or correcting existing tests.
-* `chore`: Updating build tasks, package manager configs, or dependencies.
-
-### Examples
-* `feat(mobile): implement horizontal apparel swipe carousel`
-* `fix(api): correct Stripe webhook payload verification`
-* `docs(readme): add Expo Metro port configurations`
-
----
-
-## 📐 Code Quality & Integrity
-
-Before submitting your pull request, verify that:
-1. **Type Checks Pass**: Run `npm run typecheck` or `pnpm typecheck` in the respective workspace directory to ensure there are no TypeScript compiler errors.
-2. **Formatting**: Ensure your files are clean and follow standard indentation rules.
-3. **No Unused Code**: Clean up unused imports, dead logs, and troubleshooting comments.
-
----
-
-## 🚀 Pull Request Submission Checklist
-
-When you are ready to submit your PR:
-
-- [ ] Rebase your branch onto the latest `main` branch to resolve conflicts.
-- [ ] Fill out the PR description template (describe *what* changes were made, *why* they were made, and *how* you tested them).
-- [ ] Verify that all automated CI pipelines (if applicable) compile successfully.
-- [ ] Request reviews from repository maintainers.
-
-**Thank you for helping us keep OHANNA premium!**
+Your contributions help make Ohanna better for everyone. 🎉
