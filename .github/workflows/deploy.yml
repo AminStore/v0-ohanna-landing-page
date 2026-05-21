@@ -20,7 +20,7 @@ jobs:
       - name: Build Backend
         run: |
           cd api-server
-          npm ci
+          npm ci --legacy-peer-deps
           npm run build
       
       - name: Build Frontend

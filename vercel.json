@@ -1,0 +1,8 @@
+﻿{
+  "buildCommand": "cd ohanna && npm ci && npm run build",
+  "outputDirectory": "ohanna/dist",
+  "framework": "vite",
+  "devCommand": "cd ohanna && npm run dev",
+  "installCommand": "cd ohanna && npm ci",
+  "regions": ["iad1"]
+}

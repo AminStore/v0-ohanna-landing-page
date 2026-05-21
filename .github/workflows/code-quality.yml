@@ -23,7 +23,7 @@ jobs:
       - name: Backend Type Check
         run: |
           cd api-server
-          npm ci
+          npm ci --legacy-peer-deps
           npm run typecheck
         continue-on-error: true
       
