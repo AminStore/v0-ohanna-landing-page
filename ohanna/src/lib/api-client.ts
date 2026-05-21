@@ -18,7 +18,8 @@ import type {
 
 // Set the base URL for API calls
 // In production, this should point to your deployed backend API
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD ? "https://ohanna-api.vercel.app" : "http://localhost:3001");
 
 // Only set base URL if it's not the same origin (for development)
 if (API_BASE_URL && !API_BASE_URL.includes(window.location.origin)) {
