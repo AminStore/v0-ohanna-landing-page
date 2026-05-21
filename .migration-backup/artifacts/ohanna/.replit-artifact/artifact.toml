@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "OHANNA Egyptian Streetwear"
+version = "1.0.0"
+id = "artifacts/ohanna"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24354
+
+[services.development]
+run = "pnpm --filter @workspace/ohanna run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ohanna", "run", "build" ]
+publicDir = "artifacts/ohanna/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24354"
+BASE_PATH = "/"
