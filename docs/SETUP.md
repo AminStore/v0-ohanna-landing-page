@@ -1,289 +1,237 @@
-# Development Setup Guide
+# 🛠️ Development Setup Guide
 
-## Prerequisites
+Welcome to the **OHANNA** developer guide! This document is the single source of truth for configuring your local workspace, running the development environment, managing environment variables, writing code, and submitting contributions.
 
-- Node.js 18+ (LTS recommended)
-- npm 9+
-- Git
+---
 
-## Quick Start
+## 📋 Prerequisites
 
-### 1. Clone Repository
+Before setting up the repository, ensure your local machine satisfies these requirements:
+
+* **Node.js**: `18.x` or `20.x` (LTS versions recommended)
+* **npm**: `9.x` or higher
+* **Git**: `2.x` or higher
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+Clone the project to your local workspace and navigate to the root directory:
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/Mostafa-SAID7/ohanna-landing-page.git
 cd ohanna-landing-page
 ```
 
-### 2. Install Dependencies
+### 2. Workspace Installation
 
-**Backend:**
+The repository contains two main directories: `api-server` (backend API) and `ohanna` (frontend React app). You must install dependencies in both folders.
+
+> [!NOTE]
+> For the backend dependencies, the `--legacy-peer-deps` flag is required to handle legacy peer dependency trees.
+
 ```bash
+# Install backend dependencies
 cd api-server
 npm install --legacy-peer-deps
-```
 
-**Frontend:**
-```bash
+# Install frontend dependencies
 cd ../ohanna
 npm install
 ```
 
-### 3. Environment Configuration
+---
 
-**Backend** - Create `.env` file in `api-server/`:
+## ⚙️ Environment Configuration
+
+The backend server is configured via environment variables.
+
+Copy the `.env.example` file to create a local `.env` configuration:
+
 ```bash
+cd ../api-server
 cp .env.example .env
 ```
 
-Edit `.env`:
-```
-PORT=3001
-NODE_ENV=development
-# Optional: Add Stripe key for real payments
-# STRIPE_SECRET_KEY=sk_test_your_key_here
-```
+### Environment Variables Registry
 
-**Frontend** - No `.env` needed for local development
+| Variable Name | Required | Default Value | Description |
+| :--- | :--- | :--- | :--- |
+| `PORT` | No | `3001` | The port the backend server will listen on. |
+| `NODE_ENV` | No | `development` | Environment mode (`development` or `production`). |
+| `STRIPE_SECRET_KEY` | No | *None* | Stripe secret key. If left blank, the server automatically uses a mock checkout flow. |
+| `CORS_ORIGINS` | No | *None* | Comma-separated list of allowed origins. Defaults to common localhost origins if not specified. |
 
-### 4. Start Development Servers
+---
 
-**Terminal 1 - Backend:**
+## 🏃 Running Locally
+
+To run the application, start the backend and frontend dev servers in separate terminal sessions:
+
+### Terminal 1: Backend Server
+
 ```bash
 cd api-server
 npm run dev
 ```
+* **Endpoint**: `http://localhost:3001`
+* **Swagger Documentation**: `http://localhost:3001/api-docs`
 
-Backend will start on `http://localhost:3001`
+### Terminal 2: Frontend Storefront
 
-**Terminal 2 - Frontend:**
 ```bash
 cd ohanna
 npm run dev
 ```
+* **Endpoint**: `http://localhost:5173`
 
-Frontend will start on `http://localhost:5173`
+---
 
-### 5. Verify Setup
+## 📜 Available Scripts
 
-- Frontend: Open `http://localhost:5173` in browser
-- Backend: Open `http://localhost:3001` in browser
-- API Docs: Open `http://localhost:3001/api-docs` in browser
+Here is a quick reference for the scripts defined in each component package:
 
-## Project Structure
+### Backend Express Server (`api-server/`)
 
-```
-ohanna-landing-page/
-├── ohanna/              # Frontend React app
-├── api-server/          # Backend Express API
-├── docs/                # Documentation
-└── README.md
-```
+* `npm run dev`: Starts the development server with automated hot-reloading (via `ts-node-dev`).
+* `npm run build`: Compiles TypeScript source files to JavaScript in the `dist/` directory.
+* `npm start`: Runs the built production server using `node`.
+* `npm run typecheck`: Runs the TypeScript compiler (`tsc`) in dry-run mode to validate types.
 
-## Available Scripts
+### Frontend Storefront (`ohanna/`)
 
-### Backend (api-server/)
+* `npm run dev`: Starts the Vite development server with hot-module replacement (HMR).
+* `npm run build`: Bundles assets for production into the `dist/` directory.
+* `npm run preview`: Statically serves the production build locally for verification.
+* `npm run typecheck`: Performs full type checks using the TypeScript compiler.
 
-```bash
-# Development with auto-reload
-npm run dev
+---
 
-# Build for production
-npm run build
+## 🔌 API Code Generation & Specs
 
-# Start production build
-npm start
+The frontend API client is auto-generated directly from the backend's OpenAPI specification using **Orval**.
 
-# Type checking
-npm run typecheck
-```
+If you make modifications to the API endpoints or spec schemas:
 
-### Frontend (ohanna/)
-
-```bash
-# Development with hot reload
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Type checking
-npm run typecheck
-```
-
-## API Development
-
-### Updating API Specification
-
-1. Edit `api-server/api-spec/openapi.json`
-2. Regenerate client types:
+1. Update the specification JSON file:
+   `api-server/src/api-spec/openapi.json`
+2. Run code generation to update types on both frontend and backend:
    ```bash
    cd api-server/api-spec
    npm run codegen
    ```
-3. This updates:
-   - `ohanna/src/api/generated/` (frontend client)
-   - `api-server/src/api/generated/` (backend types)
+3. This will rebuild:
+   * **Frontend API Client**: `ohanna/src/api/generated/`
+   * **Backend Shared Types**: `api-server/src/api/generated/`
 
-### Testing API Endpoints
+---
 
-**Using Swagger UI:**
-- Open `http://localhost:3001/api-docs`
-- Try out endpoints directly in browser
+## 🧪 Manual API Verification
 
-**Using curl:**
+You can manually trigger and inspect backend endpoints using standard `curl` commands:
+
+### Server Health Check
 ```bash
-# Health check
 curl http://localhost:3001/api/healthz
+```
 
-# Contact form
+### Submit Contact Form
+```bash
 curl -X POST http://localhost:3001/api/contact \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "John",
-    "email": "john@example.com",
-    "message": "Hello"
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "subject": "Collab Query",
+    "message": "Love the streetwear collection!"
   }'
+```
 
-# Checkout
+### Initialize E-Commerce Checkout
+```bash
 curl -X POST http://localhost:3001/api/checkout \
   -H "Content-Type: application/json" \
   -d '{
-    "items": [{"product": {"name": "Shirt", "price": 50}, "quantity": 1}],
+    "items": [
+      {
+        "product": {
+          "name": "HORUS HOODIE",
+          "price": 1200
+        },
+        "quantity": 1
+      }
+    ],
     "successUrl": "http://localhost:5173/success",
     "cancelUrl": "http://localhost:5173/cancel"
   }'
 ```
 
-## Troubleshooting
+---
 
-### Port Already in Use
+## 🛠️ Troubleshooting
 
-**Backend:**
-```bash
-PORT=3002 npm run dev
-```
+### 1. Port Conflict ("Address already in use")
+If ports `3001` or `5173` are occupied by other services:
+* **For Backend**: Define a different port in your environment:
+  ```bash
+  PORT=3002 npm run dev
+  ```
+* **For Frontend**: Pass the port flag directly to Vite:
+  ```bash
+  npm run dev -- --port 5174
+  ```
 
-**Frontend:**
-```bash
-npm run dev -- --port 5174
-```
-
-### CORS Errors
-
-Ensure `CORS_ORIGINS` in backend `.env` includes frontend URL:
+### 2. CORS Issues
+If the frontend cannot communicate with the backend due to CORS security policies, verify that the frontend domain is registered in the backend's `.env` configuration:
 ```
 CORS_ORIGINS=http://localhost:5173
 ```
 
-### Module Not Found
+### 3. Stripe Checkout Fails
+* If you want to use real Stripe integration, ensure your key is valid and prefixed with `sk_test_`.
+* If no key is set, the API will use a fallback mock checkout which routes seamlessly to the success URL.
 
-Clear node_modules and reinstall:
+### 4. Deep Clean / Hard Reinstall
+If you run into dependency mismatches or corrupt cache errors, execute this clean script inside the root directory to purge and re-initialize both modules:
+
 ```bash
-rm -rf node_modules package-lock.json
+# Clean backend
+cd api-server
+rm -rf node_modules dist
 npm install --legacy-peer-deps
+
+# Clean frontend
+cd ../ohanna
+rm -rf node_modules dist
+npm install
 ```
 
-### Build Errors
+---
 
-Check TypeScript errors:
-```bash
-npm run typecheck
+## 🤝 Engineering & Contribution Rules
+
+### Git Branch Strategy
+
+* `feature/your-feature`: Adding new capabilities.
+* `fix/your-fix`: Bug resolution.
+* `docs/your-doc-update`: Restructuring docs.
+* `refactor/your-refactor`: Non-functional code changes.
+
+### Conventional Commits Format
+
+Follow structured commit syntax to keep histories clean and parseable:
+
+```
+<type>(<scope>): <short summary>
+
+[Optional body text detailing the changes and design reasoning]
+
+[Optional footer references like Closes #12]
 ```
 
-### Stripe Integration Issues
-
-- Test mode: Use `sk_test_...` keys
-- Live mode: Use `sk_live_...` keys
-- Without key: Uses mock checkout
-
-## Code Style
-
-### TypeScript
-- Strict mode enabled
-- No implicit any
-- Proper type annotations
-
-### Formatting
-- Prettier configured
-- ESLint for linting
-
-### Naming Conventions
-- camelCase for variables/functions
-- PascalCase for components/classes
-- UPPER_SNAKE_CASE for constants
-
-## Git Workflow
-
-### Branch Naming
-- `feature/description` - New features
-- `fix/description` - Bug fixes
-- `docs/description` - Documentation
-- `refactor/description` - Code refactoring
-
-### Commit Messages
-```
-type(scope): description
-
-feat(api): add checkout endpoint
-fix(frontend): resolve CORS issue
-docs(setup): update installation steps
-```
-
-## Database Setup (Future)
-
-When database is configured:
-
-```bash
-# Run migrations
-npm run db:migrate
-
-# Seed database
-npm run db:seed
-
-# Reset database
-npm run db:reset
-```
-
-## Performance Tips
-
-### Frontend
-- Use React DevTools for profiling
-- Check bundle size: `npm run build`
-- Lazy load components when possible
-
-### Backend
-- Monitor logs for slow requests
-- Check database query performance
-- Use Swagger UI to test endpoints
-
-## Debugging
-
-### Backend
-- Logs are structured with Pino
-- Check `dist/` for compiled output
-- Use `--inspect` flag for Node debugger:
-  ```bash
-  node --inspect --enable-source-maps ./dist/index.mjs
-  ```
-
-### Frontend
-- Use React DevTools browser extension
-- Check Network tab for API calls
-- Use Console for errors
-
-## Next Steps
-
-1. Read [ARCHITECTURE.md](./ARCHITECTURE.md) for project structure
-2. Read [API.md](./API.md) for API documentation
-3. Check [DEPLOYMENT.md](./DEPLOYMENT.md) for production setup
-
-## Support
-
-For issues or questions:
-1. Check existing documentation
-2. Review error messages carefully
-3. Check backend logs: `npm run dev` output
-4. Check browser console for frontend errors
+#### Example Commits:
+* `feat(checkout): support checkout discount coupon applications`
+* `fix(frontend): adjust navbar mobile menu alignment`
+* `docs(readme): clean up outdated setup instructions`
