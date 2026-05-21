@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import {
@@ -40,21 +41,35 @@ export default function CartScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items,
-          successUrl: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancelUrl: `${origin}/cart`,
+          successUrl: `${origin}/ohanna-mobile/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: `${origin}/ohanna-mobile/cart`,
         }),
       });
       const data = await res.json();
-      if (data.sessionId) {
+
+      if (data.error) throw new Error(data.error);
+      if (!data.url) throw new Error("No redirect URL returned");
+
+      if (data.url.startsWith("https://checkout.stripe.com")) {
+        // Stripe checkout: open in browser
+        setLoading(false);
+        const result = await WebBrowser.openBrowserAsync(data.url);
+        // After browser closes, treat as success (cart cleared on return)
         clearCart();
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        Alert.alert(
-          "Order Placed! 𓂀",
-          `Your order ${data.sessionId} has been confirmed. Thank you, Pharaoh.`,
-          [{ text: "OK", style: "default" }]
-        );
+        router.push(`/checkout-success?session_id=${data.sessionId}`);
       } else {
-        throw new Error(data.error ?? "Checkout failed");
+        // Mock/non-Stripe: parse the success URL for params and navigate
+        clearCart();
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        try {
+          const parsedUrl = new URL(data.url);
+          const orderId = parsedUrl.searchParams.get("order_id") ?? data.sessionId;
+          const total = parsedUrl.searchParams.get("total") ?? "";
+          router.push(`/checkout-success?order_id=${orderId}&total=${total}`);
+        } catch {
+          router.push(`/checkout-success?session_id=${data.sessionId}`);
+        }
       }
     } catch (e: any) {
       Alert.alert("Checkout failed", e.message ?? "Please try again.");
