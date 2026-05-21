@@ -1,0 +1,46 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'api-server/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'api-server/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'api-server/package-lock.json'
+      
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+        working-directory: api-server
+      
+      - name: Type checking
+        run: npm run typecheck
+        working-directory: api-server
+      
+      - name: Build
+        run: npm run build
+        working-directory: api-server
+      
+      - name: Verify build output
+        run: test -f dist/index.mjs
+        working-directory: api-server

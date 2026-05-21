@@ -1,0 +1,40 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      
+      - name: Backend Type Check
+        run: |
+          cd api-server
+          npm install --legacy-peer-deps
+          npm run typecheck
+        continue-on-error: true
+      
+      - name: Frontend Type Check
+        run: |
+          cd ohanna
+          npm install
+          npm run typecheck
+        continue-on-error: true
+      
+      - name: Check for console errors
+        run: |
+          echo "Checking for common issues..."
+          grep -r "console.log" api-server/src --include="*.ts" || true
+          grep -r "any" api-server/src --include="*.ts" | grep -v "any\[\]" || true
