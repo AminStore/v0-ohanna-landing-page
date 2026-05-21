@@ -1,8 +1,0 @@
-uploads = []
-outputs = []
-
-[[generated]]
-id = "8Ep0bdA_mQKE9i6U2JLfG"
-uri = "file://artifacts/ohanna-mobile/assets/images/icon.png"
-type = "image"
-title = "generated_image"
